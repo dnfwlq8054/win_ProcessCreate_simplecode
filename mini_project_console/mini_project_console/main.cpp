@@ -4,18 +4,20 @@
 #include <string>
 #include <boost/tokenizer.hpp>
 #include <algorithm>
-
+#include <cstdio>
 
 using namespace std;
 typedef basic_string<TCHAR> TSTRING;
 
 #define CMD_TOKEN_NUM 10
+#define BUFFER 1000
 
 TSTRING ERROR_CMD
-= _T("'%s'는 실행할 수 있는 프로그램이 아닙니다. \n");
+= _T("is not execution code. \n");
 
 bool CmdProcessing (void);
 TSTRING StrLower(TSTRING);
+void Make_Process(TSTRING& , TSTRING);
 
 int _tmain(int agrc, TCHAR * argv[]) {
 	_tsetlocale(LC_ALL, _T("Korean"));
@@ -24,17 +26,16 @@ int _tmain(int agrc, TCHAR * argv[]) {
 	while (1) {
 		isExit = CmdProcessing();
 		if (isExit == true) {
-			_fputts(_T("명령어 처리를 종료합니다. \n"), stdout);
+			_fputts(_T("command end..... \n"), stdout);
 			break;
 		}
 	}
 	return 0;
 }
 
-TSTRING cmdString;
-TSTRING cmdTokenList[CMD_TOKEN_NUM];
-
 bool CmdProcessing(void) {
+	TSTRING cmdString;
+	TSTRING cmdTokenList[CMD_TOKEN_NUM];
 	_fputts(_T("Best command prompt>> "), stdout);
 	getline(cin, cmdString);
 	int index = 0;
@@ -47,10 +48,40 @@ bool CmdProcessing(void) {
 				s[i] = tolower(s[i]);
 			return s;
 		}(s);
-		});
+	});
+	
+	if (cmdTokenList[0] == _T("exit"))
+		return true;
+	else if (cmdTokenList[0] == _T("start")) {
+		Make_Process(cmdTokenList[1], cmdString);
+		return false;
+	}
+	else {
+		cout << cmdTokenList[0] << ERROR_CMD << endl;
+		return false;
+	}
+	return -1;
+}
 
-	for (int i = 0; i < CMD_TOKEN_NUM; i++)
-		cout << cmdTokenList[i] << endl;
+void Make_Process(TSTRING& cmd, TSTRING echo) {
+	TCHAR command[] = _T("echo_console.exe");
+	STARTUPINFO si = { 0, };
+	PROCESS_INFORMATION pi;
+	si.cb = sizeof(si);
+	TCHAR c_echo[BUFFER];
+	TCHAR sum_echo[BUFFER];
+	int len;
 
-	return true;
+	if (cmd == _T("echo")) {
+		echo.erase(0, 6);
+		len = echo.size();
+		echo.copy(c_echo, len);
+		c_echo[len] = '\0';
+		_stprintf_s(sum_echo, _T("%s %s"), command, c_echo);
+	}
+	cout << sum_echo << endl;
+
+	CreateProcess(NULL, sum_echo, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
 }
