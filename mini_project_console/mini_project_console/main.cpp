@@ -2,17 +2,18 @@
 #include <tchar.h>
 #include <winddi.h>
 #include <string>
+#include <boost/tokenizer.hpp>
 
 using namespace std;
+typedef basic_string<TCHAR> TSTRING;
 
-#define STR_LEN 256
 #define CMD_TOKEN_NUM 10
 
-TCHAR ERROR_CMD[]
+TSTRING ERROR_CMD
 = _T("'%s'는 실행할 수 있는 프로그램이 아닙니다. \n");
 
 bool CmdProcessing (void);
-TCHAR * StrLower(TCHAR *);
+TSTRING StrLower(TSTRING);
 
 int tmain(int agrc, TCHAR * argv[]) {
 	_tsetlocale(LC_ALL, _T("Korean"));
@@ -21,18 +22,20 @@ int tmain(int agrc, TCHAR * argv[]) {
 	while (1) {
 		isExit = CmdProcessing();
 		if (isExit == true) {
-			_fputts(_T("명령어 처리를 종료합니다. \n"));
+			_fputts(_T("명령어 처리를 종료합니다. \n"), stdout);
 			break;
 		}
 	}
 	return 0;
 }
 
-string cmdString;
-TCHAR cmdTokenList[CMD_TOKEN_NUM][STR_LEN];
+TSTRING cmdString;
+TSTRING cmdTokenList[CMD_TOKEN_NUM];
 
 bool CmdProcessing(void) {
 	_fputts(_T("Best command prompt>> "), stdout);
 	cin >> cmdString;
+
+	boost::tokenizer<boost::escaped_list_separator<char>> tok(cmdString);
 
 }
