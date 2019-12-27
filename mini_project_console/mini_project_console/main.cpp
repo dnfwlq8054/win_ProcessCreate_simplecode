@@ -1,9 +1,10 @@
 #include <iostream>
 #include <tchar.h>
-#include <winddi.h>
+#include <Windows.h>
 #include <string>
 #include <boost/tokenizer.hpp>
 #include <algorithm>
+
 
 using namespace std;
 typedef basic_string<TCHAR> TSTRING;
@@ -16,10 +17,10 @@ TSTRING ERROR_CMD
 bool CmdProcessing (void);
 TSTRING StrLower(TSTRING);
 
-int tmain(int agrc, TCHAR * argv[]) {
+int _tmain(int agrc, TCHAR * argv[]) {
 	_tsetlocale(LC_ALL, _T("Korean"));
 
-	bool isExit;
+	bool isExit = true;
 	while (1) {
 		isExit = CmdProcessing();
 		if (isExit == true) {
@@ -35,11 +36,17 @@ TSTRING cmdTokenList[CMD_TOKEN_NUM];
 
 bool CmdProcessing(void) {
 	_fputts(_T("Best command prompt>> "), stdout);
-	cin >> cmdString;
+	getline(cin, cmdString);
 	int index = 0;
-	boost::tokenizer<boost::escaped_list_separator<char>> tok(cmdString);
-	for_each(tok.begin(), tok.end(), [&](TSTRING s) {
-		cmdTokenList[index++] = s;
+	//boost::escaped_list_separator<char>
+	boost::tokenizer<> tok(cmdString);
+
+	for_each(tok.begin(), tok.end(), [&](auto& s) {
+		cmdTokenList[index++] = [&](TSTRING s) -> TSTRING{
+			for (int i = 0; i < s.size(); i++)
+				s[i] = tolower(s[i]);
+			return s;
+		}(s);
 		});
 
 	for (int i = 0; i < CMD_TOKEN_NUM; i++)
