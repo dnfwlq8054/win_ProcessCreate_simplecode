@@ -6,7 +6,6 @@
 
 
 **main**
-
 output :  
 ```Best Commend prompt > start echo hi!! hello```
   
@@ -14,9 +13,7 @@ output :
 
 
 
-
 **echo_console**    
-
 output :  
 ```hi!! hello```
 
