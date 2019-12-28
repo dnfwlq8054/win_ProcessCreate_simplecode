@@ -3,11 +3,11 @@
 
 run example  
 
-output :
+output :  
 ```Best Commend prompt > start echo hi!! hello```
   
 
 echo_console  
-output :
+output :  
 ```hi!! hello```
 
