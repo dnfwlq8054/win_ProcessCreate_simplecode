@@ -1,2 +1,13 @@
-# cpp_mini_console
-study
+# simplecode
+
+
+run example
+
+output :
+Best Commend prompt > start echo hi!! hello
+
+
+echo_console
+output :
+hi!! hello
+
