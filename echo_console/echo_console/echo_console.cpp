@@ -6,6 +6,7 @@
 using namespace std;
 
 int _tmain(int args, TCHAR * argv[]) {
+	cout << " echo_console.exe" << endl;
 	int i = 1;
 
 	for(int i = 2; i < args; i++)

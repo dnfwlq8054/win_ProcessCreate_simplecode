@@ -43,7 +43,7 @@ bool CmdProcessing(void) {
 	boost::tokenizer<> tok(cmdString);
 
 	for_each(tok.begin(), tok.end(), [&](auto& s) {
-		cmdTokenList[index++] = [&](TSTRING s) -> TSTRING{
+		cmdTokenList[index++] = [&](TSTRING s) -> TSTRING{	//대문자를 소문자로.
 			for (int i = 0; i < s.size(); i++)
 				s[i] = tolower(s[i]);
 			return s;
@@ -68,6 +68,9 @@ void Make_Process(TSTRING& cmd, TSTRING echo) {
 	STARTUPINFO si = { 0, };
 	PROCESS_INFORMATION pi;
 	si.cb = sizeof(si);
+	TCHAR title[] = "echo_console.exe";
+	si.lpTitle = title;
+
 	TCHAR c_echo[BUFFER];
 	TCHAR sum_echo[BUFFER];
 	int len;
@@ -79,10 +82,13 @@ void Make_Process(TSTRING& cmd, TSTRING echo) {
 		c_echo[len] = '\0';
 		_stprintf_s(sum_echo, _T("%s %s"), command, c_echo);
 	}
-	cout << sum_echo << endl;
+	else if (cmd == _T("")) {
+		_stprintf_s(sum_echo, _T("%s"), command);
+	}
 
 	int ischeck = CreateProcess(NULL, sum_echo, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-	cout << ischeck << endl;
+	if (!ischeck)
+		cout << "ProcessCreate Error!!" << endl;
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 }
