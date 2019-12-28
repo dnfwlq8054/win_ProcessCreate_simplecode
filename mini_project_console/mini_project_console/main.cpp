@@ -64,7 +64,7 @@ bool CmdProcessing(void) {
 }
 
 void Make_Process(TSTRING& cmd, TSTRING echo) {
-	TCHAR command[] = _T("echo_console.exe");
+	TCHAR command[] = _T("..\\..\\echo_console\\Debug\\echo_console.exe");
 	STARTUPINFO si = { 0, };
 	PROCESS_INFORMATION pi;
 	si.cb = sizeof(si);
@@ -81,7 +81,8 @@ void Make_Process(TSTRING& cmd, TSTRING echo) {
 	}
 	cout << sum_echo << endl;
 
-	CreateProcess(NULL, sum_echo, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+	int ischeck = CreateProcess(NULL, sum_echo, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+	cout << ischeck << endl;
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 }

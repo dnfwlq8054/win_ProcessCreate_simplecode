@@ -6,8 +6,14 @@
 using namespace std;
 
 int _tmain(int args, TCHAR * argv[]) {
-	cout << argv[0] << endl;
-	cout << argv[1] << endl;
+	int i = 1;
+
+	for(int i = 2; i < args; i++)
+		cout << argv[i] << " ";
+
+	cout << endl;
+
+	cin >> i;
 
 	return 0;
 }
