@@ -43,7 +43,7 @@ bool CmdProcessing(void) {
 	boost::tokenizer<> tok(cmdString);
 
 	for_each(tok.begin(), tok.end(), [&](auto& s) {
-		cmdTokenList[index++] = [&](TSTRING s) -> TSTRING{	//대문자를 소문자로.
+		cmdTokenList[index++] = [&](TSTRING s) -> TSTRING{	//Uppercase -> lowercase
 			for (int i = 0; i < s.size(); i++)
 				s[i] = tolower(s[i]);
 			return s;
