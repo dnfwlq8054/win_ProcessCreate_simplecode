@@ -1,13 +1,13 @@
 # simplecode
 
 
-run example
+run example  
 
 output :
-Best Commend prompt > start echo hi!! hello
+```Best Commend prompt > start echo hi!! hello```
+  
 
-
-echo_console
+echo_console  
 output :
-hi!! hello
+```hi!! hello```
 
