@@ -1,12 +1,11 @@
 # simplecode
 
 
-***run example  
+***run example***  
 
 
 
-**main
-
+**main**
 
 output :  
 ```Best Commend prompt > start echo hi!! hello```
@@ -16,7 +15,7 @@ output :
 
 
 
-**echo_console    
+**echo_console**    
 
 output :  
 ```hi!! hello```
